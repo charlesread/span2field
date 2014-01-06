@@ -1,6 +1,6 @@
 package com.charlesread
 
-class EditableFieldsTagLib {
+class Span2fieldTagLib {
     def grailsApplication
 
     static namespace = "sf"
