@@ -11,7 +11,7 @@ You first need to include the plugin resources (just some Javascript) in your vi
 ```grails
 <head>
 ...
-<sf:resources>
+<sf:resources />
 ...
 </head>
 ```
