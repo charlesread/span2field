@@ -2,7 +2,7 @@ class Span2fieldGrailsPlugin {
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
-    def grailsVersion = "2.2 > *"
+    def grailsVersion = "2.2.4 > *"
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
         "grails-app/views/error.gsp"
@@ -10,15 +10,15 @@ class Span2fieldGrailsPlugin {
 
     // TODO Fill in these fields
     def title = "Span2field Plugin" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
+    def author = "Charles Read"
+    def authorEmail = "charles@charlesread.com"
     def description = '''\
-Brief summary/description of the plugin.
+An easy way to make Grails views act like forms, allows you to click on a text element and edit the value in place, without navigating to an 'edit' page.
 '''
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/span2field"
-
+    //def documentation = "http://grails.org/plugin/span2field"
+    def documentation = "https://github.com/charlesread/span2field"
     // Extra (optional) plugin metadata
 
     // License: one of 'APACHE', 'GPL2', 'GPL3'
