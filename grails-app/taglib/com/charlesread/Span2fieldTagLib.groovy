@@ -27,7 +27,8 @@ class Span2fieldTagLib {
         out << g.textArea(attr)
     }
 
-    def select = {attr, body ->
+    def selectSingle = {attr, body ->
+        println attr
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
         def domainInstance = grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.findById(attr.value).toString()
         out << "<span class='editableSpan editableSelectSpan' id='${attr.id}_span' onclick='hideSpan(\"${attr.id}\")'>${domainInstance}</span>"
@@ -35,6 +36,33 @@ class Span2fieldTagLib {
         attr.style = (attr.style ?: '') + 'display:none;'
         attr.id = "${attr.id}_input"
         out << g.select(attr)
+    }
+
+    def selectMultiple = {attr, body ->
+        println attr
+        def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
+//        def domainInstance = grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.findById(attr.value).toString()
+        out << "<span class='editableSpan editableSelectSpan' id='${attr.id ?: attr.name}_span' onclick='hideSpan(\"${attr.id ?: attr.name}\")'>"
+        out << "<ul>"
+        attr.value.each {
+            out << "<li>${grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.get(it).toString()}</li>"
+        }
+        out << "</ul>"
+        out << "</span>"
+        attr.onblur = "hideInputSelectMultiple(\"${attr.id ?: attr.name}\")"
+        attr.style = (attr.style ?: '') + 'display:none;'
+        attr.id = "${attr.id ?: attr.name}_input"
+//        out << "<div id='${attr.id ?: attr.name}_wrapper' onmouseout='hideInputSelectMultiple(\"${attr.id ?: attr.name}\")' >"
+        out << g.select(attr)
+//        out << "</div>"
+    }
+
+    def select = {attr,body ->
+        if (attr.multiple) {
+            out << selectMultiple(attr,body)
+        } else {
+            out << selectSingle(attr,body)
+        }
     }
 
     def checkBox = {attr,body ->

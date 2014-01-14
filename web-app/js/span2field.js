@@ -22,9 +22,17 @@ function hideInputSelectSingle(e) {
     $('#' + e + '_span').css('display','inline');
 }
 
+function hideInputSelectMultiple(e) {
+    $('#' + e + '_input').css('display','none');
+    $('#' + e + '_span ul').html('');
+    $.each($('#' + e + '_input option:selected'), function(i,v){
+        $('#' + e + '_span ul').append('<li>' + v.textContent + '</li>');
+    });
+    $('#' + e + '_span').css('display','inline');
+}
+
 function changeCheckBoxSpan(e,checked,unchecked) {
     var changeTo;
-//    alert($('#' + e).is(':checked'));
     if($('#' + e).is(':checked')) {
         changeTo = unchecked;
     } else {
