@@ -15,7 +15,7 @@ class Span2fieldTagLib {
         attr.id = "${attr.name}_input"
         attr.onblur = "hideInput('${attr.name}')"
         attr.style = 'display:none;'
-        attr.style = attr.style + ' editableInput editableTextFieldInput'
+        attr.class = attr.class + ' editableInput editableTextFieldInput'
         out << g.textField(attr)
     }
 
@@ -24,6 +24,7 @@ class Span2fieldTagLib {
         attr.id = "${attr.name}_input"
         attr.onblur = "hideInput('${attr.name}')"
         attr.style = 'display:none;'
+        attr.class = attr.class + ' editableInput editableTextAreaInput'
         out << g.textArea(attr)
     }
 
@@ -31,10 +32,11 @@ class Span2fieldTagLib {
         println attr
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
         def domainInstance = grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.findById(attr.value).toString()
-        out << "<span class='editableSpan editableSelectSpan' id='${attr.id}_span' onclick='hideSpan(\"${attr.id}\")'>${domainInstance}</span>"
+        out << "<span class='editableSpan editableSelectSingleSpan' id='${attr.id}_span' onclick='hideSpan(\"${attr.id}\")'>${domainInstance}</span>"
         attr.onchange = "hideInputSelectSingle(\"${attr.id}\")"
-        attr.style = (attr.style ?: '') + 'display:none;'
+        attr.style = 'display:none;'
         attr.id = "${attr.id}_input"
+        attr.class = attr.class + ' editableInput editableSingleSelectInput'
         out << g.select(attr)
     }
 
@@ -42,7 +44,7 @@ class Span2fieldTagLib {
         println attr
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
 //        def domainInstance = grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.findById(attr.value).toString()
-        out << "<span class='editableSpan editableSelectSpan' id='${attr.id ?: attr.name}_span' onclick='hideSpan(\"${attr.id ?: attr.name}\")'>"
+        out << "<span class='editableSpan editableSelectMultipleSpan' id='${attr.id ?: attr.name}_span' onclick='hideSpan(\"${attr.id ?: attr.name}\")'>"
         out << "<ul>"
         attr.value.each {
             out << "<li>${grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.get(it).toString()}</li>"
@@ -50,8 +52,9 @@ class Span2fieldTagLib {
         out << "</ul>"
         out << "</span>"
         attr.onblur = "hideInputSelectMultiple(\"${attr.id ?: attr.name}\")"
-        attr.style = (attr.style ?: '') + 'display:none;'
+        attr.style = 'display:none;'
         attr.id = "${attr.id ?: attr.name}_input"
+        attr.class = attr.class + ' editableInput editableMultipleSelectInput'
 //        out << "<div id='${attr.id ?: attr.name}_wrapper' onmouseout='hideInputSelectMultiple(\"${attr.id ?: attr.name}\")' >"
         out << g.select(attr)
 //        out << "</div>"
@@ -70,6 +73,7 @@ class Span2fieldTagLib {
         attr.style = 'display:none;'
 //        out << "<label>"
         out << "<span onclick='changeCheckBoxSpan(\"${attr.id}\",\"${attr.checkedText ?: g.formatBoolean(boolean: true)}\",\"${attr.uncheckedText ?: g.formatBoolean(boolean: false)}\")' class='editableSpan editableCheckBoxSpan' id='${attr.id}_span'>${attr.checkedText && attr.uncheckedText ? (attr.value ? attr.checkedText : attr.uncheckedText) : g.formatBoolean(boolean: attr.value)}</span>"
+        attr.class = attr.class + ' editableInput editableCheckBoxInput'
         out << g.checkBox(attr)
 //        out << "</label>"
     }
