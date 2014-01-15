@@ -22,7 +22,8 @@ class Span2fieldTagLib {
     def textArea = {attr, body ->
         out << "<span class='editableSpan editableTextAreaSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value}</span>"
         attr.id = "${attr.name}_input"
-        attr.onblur = "hideInput('${attr.name}')"
+        attr.onblur = "hideInput('${attr.name}');"
+        attr.onblur = "${attr.onblur} ${g.remoteFunction(method: 'POST', action: 'updateData', controller: 'Demo', params: [value: 1234])}"
         attr.style = 'display:none;'
         attr.class = attr.class + ' editableInput editableTextAreaInput'
         out << g.textArea(attr)
@@ -41,7 +42,6 @@ class Span2fieldTagLib {
     }
 
     def selectMultiple = {attr, body ->
-        println attr
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
 //        def domainInstance = grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.findById(attr.value).toString()
         out << "<span class='editableSpan editableSelectMultipleSpan' id='${attr.id ?: attr.name}_span' onclick='hideSpan(\"${attr.id ?: attr.name}\")'>"

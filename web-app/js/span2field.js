@@ -41,3 +41,7 @@ function changeCheckBoxSpan(e,checked,unchecked) {
     $('#' + e).trigger('click');
     $('#' + e + '_span').html(changeTo);
 }
+
+function updateData() {
+    alert(1);
+}
