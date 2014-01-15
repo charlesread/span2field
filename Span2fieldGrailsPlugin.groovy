@@ -28,10 +28,10 @@ An easy way to make Grails views act like forms, allows you to click on a text e
 //    def organization = [ name: "My Company", url: "http://www.my-company.com/" ]
 
     // Any additional developers beyond the author specified above.
-//    def developers = [ [ name: "Joe Bloggs", email: "joe@bloggs.net" ]]
+    def developers = [ [ name: "Charles Read", email: "charles@charlesread.com" ]]
 
     // Location of the plugin's issue tracker.
-//    def issueManagement = [ system: "JIRA", url: "http://jira.grails.org/browse/GPMYPLUGIN" ]
+    def issueManagement = [ system: "github", url: "https://github.com/charlesread/span2field/issues" ]
 
     // Online location of the plugin's browseable source code.
     def scm = [ url: "https://github.com/charlesread/span2field" ]
