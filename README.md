@@ -85,3 +85,4 @@ Currently, the available tags are:
 Each span created will respond the `.editableSpan` CSS class, this is useful if you want to change the styling of *every* `span` that is created.  The `span`s also respond to classes named to represent what kind of field is being represented.  For example, the `span` created by the `sf:textArea` tag will respond to the `.editableTextAreaSpan` CSS class, this is useful if you only want to style the `span`s of a certain type.
 
 Each input element responds to similarly named CSS classes.  Each input element responds to the  `.editableInput` and `.editable<INPUT_TYPE>Input` classes.  For example, the input element created by the `sf:select` tag will respond to the `.editableSelectInput` CSS class. 
+
