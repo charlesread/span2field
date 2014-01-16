@@ -120,7 +120,7 @@ jQuery.ajax({
     type:'POST',
     data:'field=checkBox&clazz=com.charlesread.Demo&type=checkBox&id=1',
     url:'/span2field-demo/ajax/update',
-    success:function(data,textStatus){if (data.status == 200) { alert(textStatus);};},
+    success:function(data,textStatus){if (data.status == 200) { alert('nice!');};},
     error:function(XMLHttpRequest,textStatus,errorThrown){}
 });
 ```
