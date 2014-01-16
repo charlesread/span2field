@@ -23,7 +23,13 @@ class Span2fieldTagLib {
         out << "<span class='editableSpan editableTextAreaSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value}</span>"
         attr.id = "${attr.name}_input"
         attr.onblur = "hideInput('${attr.name}');"
-        attr.onblur = "${attr.onblur} ${g.remoteFunction(method: 'POST', action: 'updateData', controller: 'Demo', params: [value: 1234])}"
+        if (attr.ajax == "true") {
+            def clazz = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
+            def controller = attr.controller ?: 'ajax'
+            def action = attr.action ?: 'update'
+            attr.onblur = "${attr.onblur} " + g.remoteFunction(onSuccess: "console.log(1)", method: 'POST', action: action, controller: controller, params: '\'value=\' + this.value + \'&field=' + "${attr.name}&id=" + "${attr.domainInstance.id}&clazz=" + "${clazz}'" )
+
+        }
         attr.style = 'display:none;'
         attr.class = attr.class + ' editableInput editableTextAreaInput'
         out << g.textArea(attr)
