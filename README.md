@@ -7,6 +7,7 @@ The plugin's taglib tags create `span`s that display data, when the `span` is cl
 The plugin effectively combines the *show* and *edit* controller actions that `grails generate-controller` might produce, the result is a single view that both displays data **and** allows you to edit it inline, without having to navigate to another page.
 
 ## Usage
+
 You first need to include the plugin resources (just some Javascript) in your view with the `<sf:resources>` tag
 ```grails
 <head>
@@ -44,7 +45,7 @@ And your `edit.gsp` might look something like this:
     <fieldset class="buttons">
         <g:actionSubmit class="save" action="update" ... />
         <g:actionSubmit class="delete" action="delete" ... />
-	</fieldset>
+    </fieldset>
 </g:form>
 ```
 We basically want to kind combine all three of these and rewrite `show.gsp` as something like this:
@@ -61,16 +62,95 @@ We basically want to kind combine all three of these and rewrite `show.gsp` as s
 </g:form>
 ```
 The only thing that's really different about this form, as compared to any other Grails form, is the namespace of the taglib tags (notice that `g:textField` is replaced by `sf:textField`)
+
+###AJAX
+The usage as detailed above clearly involves creating an actual form and submitting that form in order to persist changes to the database.  The plugin allows you to, with very little effort, have data persisted via AJAX as soon as the element is changed.
+#### AJAX Usage
+The process for AJAXifying a *span2field* field is virtually identical to the process for creating a non-AJAX *span2field* field.  You create the field exactly as you would as detailed above, you only have to add two additional attributes to the taglib tags:
+
+* `ajax="true"`, just a toggle to tell the plugin to use AJAX
+* `domainInstance="${domainInstance}"`, the instance of the domain class that you wish to update
+
+For example:
+
+```grails
+<sf:textField ajax="true" domainInstance="${userInstance}" name="firstName" value="${userInstance?.firstName}"/>
+<sf:textField ajax="true" domainInstance="${userInstance}" name="lastName" value="${userInstance?.lastName}"/>
+```
+
+By default, when a *span2field* input field is blurred an AJAX call will be made to the `update` action in the `ajax` controller that is included in the plugin.  The `update` action is pretty good at doing what it needs to do in order to persist the data, but you may want to post the data to a different controller/action, which is made possible with two additional taglib attributes:
+
+* `controller`, used for specifying the conroller that contains the action that will persist the data
+* `action` used for specifying the action in the controller that will persist the data
+
+For example:
+
+```grails
+<sf:textField ajax="true" domainInstance="${userInstance}" controller="user" action="updateFirstName" name="firstName" value="${userInstance?.firstName}"/>
+
+<sf:textField ajax="true" domainInstance="${userInstance}" controller="user" action="updateLastName" name="lastName" value="${userInstance?.lastName}"/>
+```
+
+The advantage to using the controller/action included with the plugin is that you don't have to worry about making actions for each element to be persisted, but it clearly lacks the flexibility that would be afforded by making your own controller/action to handle persistence.
+
+### Data Passed to the Controller/Action (by the AJAX call)
+
+Several parameters are passed to the receiving controller during an AJAX call:
+
+* `id`, the ID of the domain instance that is being persisted
+* `value`, the value that needs to be persisted, with `<select multiple>` this comes in the form of a comma-delimited list of values
+* `field`, the name of the field that needs to be persisted - *firstName*, for example
+* `clazz`, the name of the class that has data that needs to be persisted - *com.charlesread.User*, for example (this is why the `domainInstance` attribute is used)
+* `selectClazz`, the name of the class that is used as the data source with `select` tags - *com.charlesread.State*, for example - this will be the same class that is used in the `from` attribute of the `sf:select` tag
+* `type`, indicates what type of element is being changed - like *textField*, *textArea*, *selectSingle* , *selectMultiple*, or *checkBox* 
+
+The included controller/action (ajax/update) makes good use of these parameters to persist data, but you are free to use them in your own controllers and actions.
+
+### Callbacks
+
+The Javascript function that does the AJAX call currently has two callbacks that can be specified in the `onSuccess` and `onFailure` tag attributes, for example:
+
+```grails
+<sf:checkBox onSuccess="if (data.status == 200) { alert('nice!'); }" ajax="true" domainInstance="${demoInstance}" name="checkBox" value="${demoInstance?.checkBox}" />
+```
+
+This snippet of code will produce the following AJAX call:
+```javascript
+jQuery.ajax({
+    type:'POST',
+    data:'field=checkBox&clazz=com.charlesread.Demo&type=checkBox&id=1',
+    url:'/span2field-demo/ajax/update',
+    success:function(data,textStatus){if (data.status == 200) { alert(textStatus);};},
+    error:function(XMLHttpRequest,textStatus,errorThrown){}
+});
+```
+
+As you can see, the `onSuccess` attribute manifests itself as the assignment of an anonymous function `function(data,textStatus){}`, here the `data` parameter is a JSON object containing the status code and a few other attributes, it will look something like this:
+
+```json
+{
+    "status":200,
+    "classUpdated":"com.charlesread.Demo",
+    "fieldUpdated":"checkBox",
+    "error":"no error"
+}
+```
+
+The `onError` attribute becomes the assignment of a function `function(XMLHttpRequest,textStatus,errorThrown){}`.
+
+More information on these functions is available in the [jQuery AJAX documentation](http://api.jquery.com/jquery.ajax/).
+
 ## Notes
 
 
 ### Syntax
-The tag syntax of each tag is **exactly** that of its delivered counterpart, that's because the plugin is using the delivered taglibs to actually produce the input element.  So see the Grails documentation for the delivered taglib syntax.
+The tag syntax of each tag is **exactly** that of its delivered counterpart, that's because the plugin is using the delivered taglibs to actually produce the input element.  So see the Grails documentation for the delivered taglib tag syntax.
 
 
 ### Available Tags
 All tags are in the namespace `sf`.
 Currently, the available tags are:
+
 * `sf:textField`
 * `sf:textArea`
 * `sf:select` (single and multiple, the span for a multiple select input element will contain a `ul`)
