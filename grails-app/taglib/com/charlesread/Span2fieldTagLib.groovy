@@ -11,11 +11,18 @@ class Span2fieldTagLib {
     }
 
     def textField = {attr, body ->
-        out << "<span class='editableSpan editableTextFieldSpan' ${attr.style}' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value}</span>"
+        out << "<span class='editableSpan editableTextFieldSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value}</span>"
         attr.id = "${attr.name}_input"
-        attr.onblur = "hideInput('${attr.name}')"
+        attr.onblur = "hideInput('${attr.name}');"
         attr.style = 'display:none;'
         attr.class = attr.class + ' editableInput editableTextFieldInput'
+        if (attr.ajax == "true") {
+            def domainInstanceClassName = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
+            def controller = attr.controller ?: 'ajax'
+            def action = attr.action ?: 'update'
+            attr.onblur = "${attr.onblur} " + g.remoteFunction(onSuccess: "alert(data)", method: 'POST', action: action, controller: controller, params: '\'value=\' + this.value + \'&field=' + "${attr.name}&id=" + "${attr.domainInstance.id}&clazz=" + "${domainInstanceClassName}'" )
+
+        }
         out << g.textField(attr)
     }
 
@@ -23,15 +30,15 @@ class Span2fieldTagLib {
         out << "<span class='editableSpan editableTextAreaSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value}</span>"
         attr.id = "${attr.name}_input"
         attr.onblur = "hideInput('${attr.name}');"
-        if (attr.ajax == "true") {
-            def clazz = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
-            def controller = attr.controller ?: 'ajax'
-            def action = attr.action ?: 'update'
-            attr.onblur = "${attr.onblur} " + g.remoteFunction(onSuccess: "console.log(1)", method: 'POST', action: action, controller: controller, params: '\'value=\' + this.value + \'&field=' + "${attr.name}&id=" + "${attr.domainInstance.id}&clazz=" + "${clazz}'" )
-
-        }
         attr.style = 'display:none;'
         attr.class = attr.class + ' editableInput editableTextAreaInput'
+        if (attr.ajax == "true") {
+            def domainInstanceClassName = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
+            def controller = attr.controller ?: 'ajax'
+            def action = attr.action ?: 'update'
+            attr.onblur = "${attr.onblur} " + g.remoteFunction(onSuccess: "alert(data)", method: 'POST', action: action, controller: controller, params: '\'value=\' + this.value + \'&field=' + "${attr.name}&id=" + "${attr.domainInstance.id}&clazz=" + "${domainInstanceClassName}'" )
+
+        }
         out << g.textArea(attr)
     }
 

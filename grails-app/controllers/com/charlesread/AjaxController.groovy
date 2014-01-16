@@ -1,5 +1,7 @@
 package com.charlesread
 
+import grails.converters.JSON
+
 class AjaxController {
 
     static allowedMethods = [update: ['POST']]
@@ -15,15 +17,17 @@ class AjaxController {
         println "id - > ${params.id}"
         println "clazz -> ${params.clazz}"
         def domainInstanceClassName = org.hibernate.Hibernate.getClass(params.clazz).getName()
-        def clazz = grailsApplication.getArtefact("Domain",params.clazz)?.getClazz()?.findById(params.id)
+        def domainInstance = grailsApplication.getArtefact("Domain",params.clazz)?.getClazz()?.findById(params.id)
 
         //def instance = Demo.get(params.id)
-        clazz[params.field] = params.value
-        if (clazz.save(flush: true)) {
+        domainInstance[params.field] = params.value
+        if (domainInstance.save(flush: true)) {
             println "worked!"
-            //response.setStatus(200)
+            response.setStatus(200)
         } else {
-            //response.setStatus(500)
+            response.setStatus(500)
         }
+        render ""
+
     }
 }
