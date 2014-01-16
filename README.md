@@ -9,7 +9,7 @@ The plugin effectively combines the *show* and *edit* controller actions that `g
 ## Usage
 
 You first need to include the plugin resources (just some Javascript) in your view with the `<sf:resources>` tag
-```grails
+```html
 <head>
 ...
 <sf:resources />
@@ -20,7 +20,7 @@ If you were to use Grails to generate controllers and views it would make a temp
 
 Let's say you have used Grails to create the controller and views for a class called `User`, your `_form.gsp` might look like this:
 
-```grails
+```html
 ...
 <g:textField name="firstName" value="${userInstance?.firstName}"/>
 ...
@@ -29,7 +29,7 @@ Let's say you have used Grails to create the controller and views for a class ca
 ```
 
 Your `show.gsp` might look like this:
-```grails
+```html
 ...
 <g:fieldValue bean="${userInstance}" field="firstName"/>
 ...
@@ -37,7 +37,7 @@ Your `show.gsp` might look like this:
 ...
 ```
 And your `edit.gsp` might look something like this:
-```grails
+```html
 <g:form method="post">
     <g:hiddenField name="id" value="${userInstance?.id}" />
     <g:hiddenField name="version" value="${userInstance?.version}" />
@@ -49,7 +49,7 @@ And your `edit.gsp` might look something like this:
 </g:form>
 ```
 We basically want to kind combine all three of these and rewrite `show.gsp` as something like this:
-```grails
+```html
 <g:form method="post">
     <g:hiddenField name="id" value="${userInstance?.id}" />
     <g:hiddenField name="version" value="${userInstance?.version}" />
@@ -73,7 +73,7 @@ The process for AJAXifying a *span2field* field is virtually identical to the pr
 
 For example:
 
-```grails
+```html
 <sf:textField ajax="true" domainInstance="${userInstance}" name="firstName" value="${userInstance?.firstName}"/>
 <sf:textField ajax="true" domainInstance="${userInstance}" name="lastName" value="${userInstance?.lastName}"/>
 ```
@@ -85,7 +85,7 @@ By default, when a *span2field* input field is blurred an AJAX call will be made
 
 For example:
 
-```grails
+```html
 <sf:textField ajax="true" domainInstance="${userInstance}" controller="user" action="updateFirstName" name="firstName" value="${userInstance?.firstName}"/>
 
 <sf:textField ajax="true" domainInstance="${userInstance}" controller="user" action="updateLastName" name="lastName" value="${userInstance?.lastName}"/>
@@ -110,7 +110,7 @@ The included controller/action (ajax/update) makes good use of these parameters 
 
 The Javascript function that does the AJAX call currently has two callbacks that can be specified in the `onSuccess` and `onFailure` tag attributes, for example:
 
-```grails
+```html
 <sf:checkBox onSuccess="if (data.status == 200) { alert('nice!'); }" ajax="true" domainInstance="${demoInstance}" name="checkBox" value="${demoInstance?.checkBox}" />
 ```
 
