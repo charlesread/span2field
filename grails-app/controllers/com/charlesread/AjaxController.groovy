@@ -11,12 +11,6 @@ class AjaxController {
     }
 
     def update() {
-        println "updateData called..."
-        println "type - > ${params.type}"
-        println "value - > ${params.value}"
-        println "field - > ${params.field}"
-        println "id - > ${params.id}"
-        println "clazz -> ${params.clazz}"
         
         def error
 
@@ -27,19 +21,15 @@ class AjaxController {
 
             switch(params.type) {
                 case ['textField','textArea']:
-                    println "tF or tA found..."
                     domainInstance[params.field] = params.value    
                     break
                 case 'selectSingle':
-                    println "selectClazz -> ${params.selectClazz}"
                     domainInstance[params.field.tokenize('.')[0]] = grailsApplication.getArtefact("Domain",params.selectClazz)?.getClazz()?.findById(params.value.toLong()) 
-                    println "select found...  ${params.field.tokenize('.').getAt(0)}"
                     break
                 case 'selectMultiple':
                     def selections = params.value.tokenize(',')
                     domainInstance[params.field].clear()
                     selections.eachWithIndex {v,i ->
-                        println "${i} --> ${v}"
                         domainInstance[params.field].add(grailsApplication.getArtefact("Domain",params.selectClazz)?.getClazz()?.findById(v.toLong()))
                     }
                     break
