@@ -63,7 +63,7 @@ We basically want to kind combine all three of these and rewrite `show.gsp` as s
 ```
 The only thing that's really different about this form, as compared to any other Grails form, is the namespace of the taglib tags (notice that `g:textField` is replaced by `sf:textField`)
 
-###AJAX
+### AJAX
 The usage as detailed above clearly involves creating an actual form and submitting that form in order to persist changes to the database.  The plugin allows you to, with very little effort, have data persisted via AJAX as soon as the element is changed.
 #### AJAX Usage
 The process for AJAXifying a *span2field* field is virtually identical to the process for creating a non-AJAX *span2field* field.  You create the field exactly as you would as detailed above, you only have to add two additional attributes to the taglib tags:
@@ -93,7 +93,7 @@ For example:
 
 The advantage to using the controller/action included with the plugin is that you don't have to worry about making actions for each element to be persisted, but it clearly lacks the flexibility that would be afforded by making your own controller/action to handle persistence.
 
-### Data Passed to the Controller/Action (by the AJAX call)
+#### Data Passed to the Controller/Action (by the AJAX call)
 
 Several parameters are passed to the receiving controller during an AJAX call:
 
@@ -106,7 +106,7 @@ Several parameters are passed to the receiving controller during an AJAX call:
 
 The included controller/action (ajax/update) makes good use of these parameters to persist data, but you are free to use them in your own controllers and actions.
 
-### Callbacks
+#### Callbacks
 
 The Javascript function that does the AJAX call currently has two callbacks that can be specified in the `onSuccess` and `onFailure` tag attributes, for example:
 
