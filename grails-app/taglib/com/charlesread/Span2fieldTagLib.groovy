@@ -1,5 +1,7 @@
 package com.charlesread
 
+import org.apache.commons.lang.StringEscapeUtils
+
 class Span2fieldTagLib {
     def grailsApplication
 
@@ -98,8 +100,8 @@ class Span2fieldTagLib {
     def checkBox = {attr,body ->
         attr.id = attr.id ?: attr.name
         attr.style = 'display:none;'
-        attr.class = attr.class + ' editableInput editableCheckBoxInput'
-        def onclickString = "changeCheckBoxSpan('${attr.id}','${attr.checkedText ?: g.formatBoolean(boolean: true)}','${attr.uncheckedText ?: g.formatBoolean(boolean: false)}');"
+        attr.class = attr.class + " editableInput editableCheckBoxInput"
+        def onclickString = "changeCheckBoxSpan('${attr.id}','${StringEscapeUtils.escapeJavaScript(attr.checkedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: true))}','${StringEscapeUtils.escapeJavaScript(attr.uncheckedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: false))}');"
         if (attr.ajax == "true" && attr.domainInstance) {
         	def domainInstanceClassName = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
             def controller = attr.controller ?: 'ajax'
@@ -107,7 +109,7 @@ class Span2fieldTagLib {
             onclickString = "${onclickString}" + g.remoteFunction(onSuccess: attr?.onSuccess, onFailure: attr?.onFailure, method: 'POST', action: action, controller: controller, params: "'field=${attr.name}&clazz=${domainInstanceClassName}&type=checkBox&id=${attr.domainInstance.id}'" )
         }
         out << """
-        	<span onclick="${onclickString}" class='editableSpan editableCheckBoxSpan' id='${attr.id}_span'>
+        	<span onclick="${onclickString}" class='editableSpan editableCheckBoxSpan ${attr.value ? 'editableCheckBoxChecked' : 'editableCheckBoxUnchecked'}' id='${attr.id}_span'>
         		${attr.checkedText && attr.uncheckedText ? (attr.value ? attr.checkedText : attr.uncheckedText) : g.formatBoolean(boolean: attr.value)}
         	</span>
         	"""

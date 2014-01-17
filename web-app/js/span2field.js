@@ -35,8 +35,10 @@ function changeCheckBoxSpan(e,checked,unchecked) {
     var changeTo;
     if($('#' + e).is(':checked')) {
         changeTo = unchecked;
+        $('#' + e + '_span').removeClass("editableCheckBoxChecked").addClass("editableCheckBoxUnchecked");
     } else {
         changeTo = checked;
+        $('#' + e + '_span').removeClass("editableCheckBoxUnchecked").addClass("editableCheckBoxChecked");
     }
     $('#' + e).trigger('click');
     $('#' + e + '_span').html(changeTo);

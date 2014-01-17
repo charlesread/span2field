@@ -160,6 +160,7 @@ Currently, the available tags are:
 
 1. The `sf:checkBox` tag responds to two additional attributes: `checkedText` and `uncheckedText`, these represent the text to be displayed in the `span` that takes the place of the checkbox.  If they are not specified `sf:checkBox` relies on the Grails `formatBoolean` taglib to determine what text to display in the span.
 2. `sf:checkBox` works slightly differently than the other tags. Like all others it displays a `span` that when clicked allows you to edit the value of the underlying input field (a text field, a select list, etc.), but unlike the other tags, the `span` created by `sf:checkBox` does not display an actual checkbox input element when it is clicked, rather the text in the `span` toggles between the values of the `checkedText` and `uncheckedText` attributes (or values returned by `formatBoolean`).
+3.  The spans corresponding to checked and unchecked checkboxes will respond to the `editableCheckBoxChecked` and `editableCheckBoxUnchecked` CSS classes, respectively.
 
 ### Styling
 Each span created will respond the `.editableSpan` CSS class, this is useful if you want to change the styling of *every* `span` that is created.  The `span`s also respond to classes named to represent what kind of field is being represented.  For example, the `span` created by the `sf:textArea` tag will respond to the `.editableTextAreaSpan` CSS class, this is useful if you only want to style the `span`s of a certain type.
