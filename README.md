@@ -140,6 +140,23 @@ The `onError` attribute becomes the assignment of a function `function(XMLHttpRe
 
 More information on these functions is available in the [jQuery AJAX documentation](http://api.jquery.com/jquery.ajax/).
 
+#### Default `onSuccess` and `onFailure` Callbacks
+
+By default, these events trigger the color of the text in the `span` element to flash a color (green or red, respectively) upon the success or failure of saving the domain object.  You can override this by setting you own callbacks (as described above), or by setting the relevant configuration option in `Config.groovy`, as shown below:
+
+```
+span2field {
+    onSuccess {
+        defaultAction = true //set this to false to disable the "text color flash"
+        color = 'green' //change the color of the "text color flash", use any color understood by CSS
+    }
+    onFailure {
+        defaultAction = true
+        color = 'red'
+    }
+}
+```
+
 ## Notes
 
 

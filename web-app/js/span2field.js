@@ -43,3 +43,14 @@ function changeCheckBoxSpan(e,checked,unchecked) {
     $('#' + e).trigger('click');
     $('#' + e + '_span').html(changeTo);
 }
+
+function colorConf(e,c) {
+    var originalColor = e.css('color');
+    e.animate({
+        'color': c || 'green'
+    },100,function(){
+        e.animate({
+            'color': originalColor
+        },2000);
+    });
+}

@@ -7,10 +7,27 @@ class Span2fieldTagLib {
 
     static namespace = "sf"
 
-    def noData = '...'
+    private String noData = '...'
+
+    private String onSuccessDefault(String e) {
+    	if (grailsApplication.config.span2field.onSuccess.defaultAction == false) {
+    		return	
+    	} else {
+    		return "colorConf(\$('#${e}_span'),'${grailsApplication.config.span2field.onSuccess.color ?: 'green'}')"
+    	}
+    }
+
+    private String onFailureDefault(String e) {
+    	if (grailsApplication.config.span2field.onFailure.defaultAction == false) {
+    		return	
+    	} else {
+    		return "colorConf(\$('#${e}_span'),'${grailsApplication.config.span2field.onFailure.color ?: 'red'}')"
+    	}
+    }
 
     def resources = {attr,body ->
         out << g.javascript([src: 'jquery-1.10.2.min.js'])
+        out << g.javascript([src: 'jquery-ui.min.js'])
         out << g.javascript([src: 'span2field.js'])
     }
 
@@ -20,6 +37,8 @@ class Span2fieldTagLib {
         attr.onblur = "hideInput('${attr.name}');"
         attr.style = 'display:none;'
         attr.class = attr.class + ' editableInput editableTextFieldInput'
+        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name)
+        attr.onSuccess = attr?.onFailure ?: onFailureDefault(attr.name)
         if (attr.ajax == "true" && attr.domainInstance) {
             def domainInstanceClassName = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
             def controller = attr.controller ?: 'ajax'
@@ -36,6 +55,8 @@ class Span2fieldTagLib {
         attr.onblur = "hideInput('${attr.name}');"
         attr.style = 'display:none;'
         attr.class = attr.class + ' editableInput editableTextAreaInput'
+        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name)
+        attr.onSuccess = attr?.onFailure ?: onFailureDefault(attr.name)
         if (attr.ajax == "true" && attr.domainInstance) {
             def domainInstanceClassName = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
             def controller = attr.controller ?: 'ajax'
@@ -54,6 +75,8 @@ class Span2fieldTagLib {
         attr.style = 'display:none;'
         attr.id = "${attr.id}_input"
         attr.class = attr.class + ' editableInput editableSingleSelectInput'
+        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name.tokenize('.')[0])
+        attr.onSuccess = attr?.onFailure ?: onFailureDefault(attr.name.tokenize('.')[0])
         if (attr.ajax == "true" && attr.domainInstance) {
             def controller = attr.controller ?: 'ajax'
             def action = attr.action ?: 'update'
@@ -80,6 +103,8 @@ class Span2fieldTagLib {
         attr.style = 'display:none;'
         attr.id = "${attr.id ?: attr.name}_input"
         attr.class = attr.class + ' editableInput editableMultipleSelectInput'
+        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name.tokenize('.')[0])
+        attr.onSuccess = attr?.onFailure ?: onFailureDefault(attr.name.tokenize('.')[0])
         if (attr.ajax == "true" && attr.domainInstance) {
             def controller = attr.controller ?: 'ajax'
             def action = attr.action ?: 'update'
@@ -101,6 +126,8 @@ class Span2fieldTagLib {
         attr.id = attr.id ?: attr.name
         attr.style = 'display:none;'
         attr.class = attr.class + " editableInput editableCheckBoxInput"
+        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name)
+        attr.onSuccess = attr?.onFailure ?: onFailureDefault(attr.name)
         def onclickString = "changeCheckBoxSpan('${attr.id}','${StringEscapeUtils.escapeJavaScript(attr.checkedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: true))}','${StringEscapeUtils.escapeJavaScript(attr.uncheckedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: false))}');"
         if (attr.ajax == "true" && attr.domainInstance) {
         	def domainInstanceClassName = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
