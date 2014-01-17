@@ -142,7 +142,7 @@ More information on these functions is available in the [jQuery AJAX documentati
 
 #### Default `onSuccess` and `onFailure` Callbacks
 
-By default, these events trigger the color of the text in the `span` element to flash a color (green or red, respectively) upon the success or failure of saving the domain object.  You can override this by setting you own callbacks (as described above), or by setting the relevant configuration option in `Config.groovy`, as shown below:
+By default, these events trigger the color of the text in the `span` element to flash a color upon the success or failure of saving the domain object (green or red, respectively).  You can override this by setting your own callbacks (as described above), or by setting the relevant configuration option in `Config.groovy`, as shown below:
 
 ```
 span2field {
@@ -182,5 +182,5 @@ Currently, the available tags are:
 ### Styling
 Each span created will respond the `.editableSpan` CSS class, this is useful if you want to change the styling of *every* `span` that is created.  The `span`s also respond to classes named to represent what kind of field is being represented.  For example, the `span` created by the `sf:textArea` tag will respond to the `.editableTextAreaSpan` CSS class, this is useful if you only want to style the `span`s of a certain type.
 
-Each input element responds to similarly named CSS classes.  Each input element responds to the  `.editableInput` and `.editable<INPUT_TYPE>Input` classes.  For example, the input element created by the `sf:select` tag will respond to the `.editableSelectInput` CSS class. 
+Each input element responds to similarly named CSS classes.  Each input element responds to the  `.editableInput` and `.editable<INPUT_TYPE>Input` classes.  For example, the input element created by the `<sf:select multiple>` tag will respond to the `.editableSelectMultipleInput` CSS class. 
 
