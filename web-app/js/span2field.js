@@ -6,7 +6,7 @@ function hideSpan(e) {
 
 function hideInput(e) {
     $('#' + e + '_input').css('display','none');
-    $('#' + e + '_span').html($('#' + e + '_input').val());
+    $('#' + e + '_span').html($('#' + e + '_input').val() || '...');
     $('#' + e + '_span').css('display','inline');
 }
 
@@ -18,7 +18,7 @@ function hideSpanSelectSingle(e) {
 
 function hideInputSelectSingle(e) {
     $('#' + e + '_input').css('display','none');
-    $('#' + e + '_span').html($('#' + e + '_input option:selected').text());
+    $('#' + e + '_span').html($('#' + e + '_input option:selected').text()  || '...');
     $('#' + e + '_span').css('display','inline');
 }
 

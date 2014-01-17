@@ -5,13 +5,15 @@ class Span2fieldTagLib {
 
     static namespace = "sf"
 
+    def noData = '...'
+
     def resources = {attr,body ->
         out << g.javascript([src: 'jquery-1.10.2.min.js'])
         out << g.javascript([src: 'span2field.js'])
     }
 
     def textField = {attr, body ->
-        out << "<span class='editableSpan editableTextFieldSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value}</span>"
+        out << "<span class='editableSpan editableTextFieldSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value ?: noData}</span>"
         attr.id = "${attr.name}_input"
         attr.onblur = "hideInput('${attr.name}');"
         attr.style = 'display:none;'
@@ -27,7 +29,7 @@ class Span2fieldTagLib {
     }
 
     def textArea = {attr, body ->
-        out << "<span class='editableSpan editableTextAreaSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value}</span>"
+        out << "<span class='editableSpan editableTextAreaSpan' id='${attr.name}_span' onclick='hideSpan(\"${attr.name}\")'>${attr.value ?: noData}</span>"
         attr.id = "${attr.name}_input"
         attr.onblur = "hideInput('${attr.name}');"
         attr.style = 'display:none;'
@@ -45,7 +47,7 @@ class Span2fieldTagLib {
     def selectSingle = {attr, body ->
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
         def domainInstance = grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.findById(attr.value).toString()
-        out << "<span class='editableSpan editableSelectSingleSpan' id='${attr.id}_span' onclick='hideSpan(\"${attr.id}\")'>${domainInstance}</span>"
+        out << "<span class='editableSpan editableSelectSingleSpan' id='${attr.id}_span' onclick='hideSpan(\"${attr.id}\")'>${domainInstance ?: noData}</span>"
         attr.onchange = "hideInputSelectSingle(\"${attr.id}\");"
         attr.style = 'display:none;'
         attr.id = "${attr.id}_input"
@@ -62,11 +64,15 @@ class Span2fieldTagLib {
     def selectMultiple = {attr, body ->
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
         out << "<span class='editableSpan editableSelectMultipleSpan' id='${attr.id ?: attr.name}_span' onclick='hideSpan(\"${attr.id ?: attr.name}\")'>"
-        out << "<ul>"
-        attr.value.each {
-            out << "<li>${grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.get(it).toString()}</li>"
+        if (!attr.value) {
+        	out << noData
+        } else {
+        	out << "<ul>"
+        	attr.value.each {
+            	out << "<li>${grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.get(it).toString()}</li>"
+        	}
+        	out << "</ul>"
         }
-        out << "</ul>"
         out << "</span>"
         attr.onblur = "hideInputSelectMultiple(\"${attr.id ?: attr.name}\");"
         attr.style = 'display:none;'
