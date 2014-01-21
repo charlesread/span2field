@@ -3,11 +3,14 @@ package com.charlesread
 import org.apache.commons.lang.StringEscapeUtils
 
 class Span2fieldTagLib {
+
     def grailsApplication
 
     static namespace = "sf"
 
-    private String noData = '...'
+    private String getNoData() {
+        return grailsApplication.config.span2field.noData ?: '...'
+    }
 
     private String onSuccessDefault(String e) {
     	if (grailsApplication.config.span2field.onSuccess.defaultAction == false) {

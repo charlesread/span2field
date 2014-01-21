@@ -24,10 +24,14 @@ function hideInputSelectSingle(e) {
 
 function hideInputSelectMultiple(e) {
     $('#' + e + '_input').css('display','none');
-    $('#' + e + '_span ul').html('');
-    $.each($('#' + e + '_input option:selected'), function(i,v){
-        $('#' + e + '_span ul').append('<li>' + v.textContent + '</li>');
-    });
+    if ($('#' + e + '_input option:selected').length>0) {
+	    $('#' + e + '_span').html('');
+	    $('#' + e + '_span').append('<ul>')
+	    $.each($('#' + e + '_input option:selected'), function(i,v){
+	        $('#' + e + '_span ul').append('<li>' + v.textContent + '</li>');
+	    });
+	    $('#' + e + '_span').append('</ul>')
+	}
     $('#' + e + '_span').css('display','inline');
 }
 
