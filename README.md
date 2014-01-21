@@ -2,7 +2,8 @@ span2field
 ===============
 A simple Grails plugin providing a tablig that allows you to make `span`s editable.  It is very easy to implement, as easy as any other of the delivered Grails input taglib tags (like `g:textField` and `g:select`).  
 
-The plugin's taglib tags create `span`s that display data, when the `span` is clicked the `span` is hidden and an `input` element appears, allowing you to edit the data, when you click out of (blur) the `input` element (or select an entry, in the case of the single `select` input element) the `input` element is hidden and the `span` reappears, containing the new value that was just input.
+The plugin's taglib tags create `span`s that display data, when the `span` is clicked the `span` is hidden and an `input` element appears, allowing you to edit the data, when you click out of (blur) the `input` element (or select an entry, in the case of the single `select` input element) the `input` element is hidden and the `span` reappears, containing the new value that was just input.  The new data can be persisted either by submitting the form or using AJAX, which is built right in.
+
 
 The plugin effectively combines the *show* and *edit* controller actions that `grails generate-controller` might produce, the result is a single view that both displays data **and** allows you to edit it inline, without having to navigate to another page.
 
