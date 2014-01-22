@@ -81,13 +81,13 @@ class Span2fieldTagLib {
         def token = genToken()
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
         def domainInstance = grailsApplication.getArtefact("Domain",firstDomainInstanceClassName)?.getClazz()?.findById(attr.value).toString()
-        out << "<span class='editableSpan editableSelectSingleSpan' id='${attr.id}_span' onclick='hideSpan(\"${attr.id}\")'>${domainInstance ?: noData}</span>"
-        attr.onchange = "hideInputSelectSingle(\"${attr.id}\");"
+        out << "<span class='editableSpan editableSelectSingleSpan' id='${attr.id}_${token}_span' onclick='hideSpan(\"${attr.id}_${token}\")'>${domainInstance ?: noData}</span>"
+        attr.onchange = "hideInputSelectSingle(\"${attr.id}_${token}\");"
         attr.style = 'display:none;'
-        attr.id = "${attr.id}_input"
+        attr.id = "${attr.id}_${token}_input"
         attr.class = attr.class + ' editableInput editableSingleSelectInput'
-        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name.tokenize('.')[0])
-        attr.onFailure = attr?.onFailure ?: onFailureDefault(attr.name.tokenize('.')[0])
+        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name.tokenize('.')[0] + "_${token}")
+        attr.onFailure = attr?.onFailure ?: onFailureDefault(attr.name.tokenize('.')[0] + "_${token}")
         if (attr.ajax == "true" && attr.domainInstance) {
             def controller = attr.controller ?: 'ajax'
             def action = attr.action ?: 'update'
@@ -100,7 +100,7 @@ class Span2fieldTagLib {
     def selectMultiple = {attr, body ->
         def token = genToken()
         def firstDomainInstanceClassName = org.hibernate.Hibernate.getClass(attr.from.get(0)).getName()
-        out << "<span class='editableSpan editableSelectMultipleSpan' id='${attr.id ?: attr.name}_span' onclick='hideSpan(\"${attr.id ?: attr.name}\")'>"
+        out << "<span class='editableSpan editableSelectMultipleSpan' id='${attr.id ?: attr.name}_${token}_span' onclick='hideSpan(\"${attr.id ?: attr.name}_${token}\")'>"
         if (!attr.value) {
         	out << noData
         } else {
@@ -111,12 +111,12 @@ class Span2fieldTagLib {
         	out << "</ul>"
         }
         out << "</span>"
-        attr.onblur = "hideInputSelectMultiple(\"${attr.id ?: attr.name}\");"
+        attr.onblur = "hideInputSelectMultiple(\"${attr.id ?: attr.name}_${token}\");"
         attr.style = 'display:none;'
-        attr.id = "${attr.id ?: attr.name}_input"
+        attr.id = "${attr.id ?: attr.name}_${token}_input"
         attr.class = attr.class + ' editableInput editableMultipleSelectInput'
-        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name.tokenize('.')[0])
-        attr.onFailure = attr?.onFailure ?: onFailureDefault(attr.name.tokenize('.')[0])
+        attr.onSuccess = attr?.onSuccess ?: onSuccessDefault(attr.name.tokenize('.')[0] + "_${token}")
+        attr.onFailure = attr?.onFailure ?: onFailureDefault(attr.name.tokenize('.')[0] + "_${token}")
         if (attr.ajax == "true" && attr.domainInstance) {
             def controller = attr.controller ?: 'ajax'
             def action = attr.action ?: 'update'
@@ -136,12 +136,12 @@ class Span2fieldTagLib {
 
     def checkBox = {attr,body ->
         def token = genToken()
-        attr.id = attr.id ?: attr.name
+        attr.id = (attr.id ?: attr.name) + "_${token}_input"
         attr.style = 'display:none;'
         attr.class = attr.class + " editableInput editableCheckBoxInput"
         attr.onSuccess = attr?.onSuccess ?: onSuccessDefault("${attr.name}_${token}")
         attr.onFailure = attr?.onFailure ?: onFailureDefault("${attr.name}_${token}")
-        def onclickString = "changeCheckBoxSpan('${attr.id}_${token}','${StringEscapeUtils.escapeJavaScript(attr.checkedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: true))}','${StringEscapeUtils.escapeJavaScript(attr.uncheckedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: false))}');"
+        def onclickString = "changeCheckBoxSpan('${attr.name}_${token}','${StringEscapeUtils.escapeJavaScript(attr.checkedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: true))}','${StringEscapeUtils.escapeJavaScript(attr.uncheckedText) ?: StringEscapeUtils.escapeJavaScript(g.formatBoolean(boolean: false))}');"
         if (attr.ajax == "true" && attr.domainInstance) {
         	def domainInstanceClassName = org.hibernate.Hibernate.getClass(attr.domainInstance).getName()
             def controller = attr.controller ?: 'ajax'
@@ -149,7 +149,7 @@ class Span2fieldTagLib {
             onclickString = "${onclickString}" + g.remoteFunction(onSuccess: attr?.onSuccess, onFailure: attr?.onFailure, method: 'POST', action: action, controller: controller, params: "'field=${attr.name}&clazz=${domainInstanceClassName}&type=checkBox&id=${attr.domainInstance.id}'" )
         }
         out << """
-        	<span onclick="${onclickString}" class='editableSpan editableCheckBoxSpan ${attr.value ? 'editableCheckBoxChecked' : 'editableCheckBoxUnchecked'}' id='${attr.id}_${token}_span'>
+        	<span onclick="${onclickString}" class='editableSpan editableCheckBoxSpan ${attr.value ? 'editableCheckBoxChecked' : 'editableCheckBoxUnchecked'}' id='${attr.name}_${token}_span'>
         		${attr.checkedText && attr.uncheckedText ? (attr.value ? attr.checkedText : attr.uncheckedText) : g.formatBoolean(boolean: attr.value)}
         	</span>
         	"""
