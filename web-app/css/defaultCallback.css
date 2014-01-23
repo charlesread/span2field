@@ -1,0 +1,45 @@
+span.editableSpan {
+    display: inline-block;
+    color: #268DFF;
+    border: 1px solid #B8DAFF;
+    line-height: 20px;
+    border-radius:5px;
+    padding:5px;
+    overflow: hidden;
+}
+span.editableSpan ul {
+    padding: 0px;
+    overflow: hidden;
+    display: inline;
+}
+
+span.editableSpan ul li {
+    display: inline-block;
+    float:left;
+}
+
+span.editableSpan ul li:after {
+    content: ",";
+    margin-right:4px;
+}
+
+span.editableSpan ul li:last-child:after {
+    content: "";
+    margin-right:0px;
+}
+
+.successAfter:after {
+    content: '\2713';
+    color:limegreen;
+    padding-left: 10px;
+    font-size: inherit;
+    border: 0px;
+}
+.fa {
+    margin-left:10px;
+    margin-right:5px;
+    color: #BDDCFF;
+}
+
+
+

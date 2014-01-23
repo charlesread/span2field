@@ -16,7 +16,7 @@ class Span2fieldTagLib {
     	if (grailsApplication.config.span2field.onSuccess.defaultAction == false) {
     		return	
     	} else {
-    		return "colorConf(\$('#${e}_span'),'${grailsApplication.config.span2field.onSuccess.color ?: 'green'}')"
+    		return "callback(\$('#${e}_span'),'${grailsApplication.config.span2field.onSuccess.color ?: 'green'}')"
     	}
     }
 
@@ -24,7 +24,7 @@ class Span2fieldTagLib {
     	if (grailsApplication.config.span2field.onFailure.defaultAction == false) {
     		return	
     	} else {
-    		return "colorConf(\$('#${e}_span'),'${grailsApplication.config.span2field.onFailure.color ?: 'red'}')"
+    		return "callback(\$('#${e}_span'),'${grailsApplication.config.span2field.onFailure.color ?: 'red'}')"
     	}
     }
 
