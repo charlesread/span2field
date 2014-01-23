@@ -1,7 +1,7 @@
 span.editableSpan {
     display: inline-block;
     color: #268DFF;
-    border: 1px solid #E8F3FF;
+    border: 1px solid rgba(0,0,0,0);
     line-height: 20px;
     border-radius:5px;
     padding:5px;
@@ -39,7 +39,7 @@ span.editableSpan ul li:last-child:after {
 .fa {
     margin-left:10px;
     margin-right:5px;
-    color: #BDDCFF;
+    color: #C9E3FF;
 }
 
 input, select, textarea {

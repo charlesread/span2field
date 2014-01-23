@@ -13,7 +13,7 @@ class Span2fieldTagLib {
     }
 
     private String onSuccessDefault(String e) {
-    	if (grailsApplication.config.span2field.onSuccess.defaultAction == false) {
+    	if (grailsApplication.config.span2field.onSuccess.defaultAction == false || !grailsApplication.config.span2field.onSuccess.defaultAction) {
     		return	
     	} else {
     		return "callback(\$('#${e}_span'),'${grailsApplication.config.span2field.onSuccess.color ?: 'green'}')"
@@ -21,7 +21,7 @@ class Span2fieldTagLib {
     }
 
     private String onFailureDefault(String e) {
-    	if (grailsApplication.config.span2field.onFailure.defaultAction == false) {
+    	if (grailsApplication.config.span2field.onFailure.defaultAction == false || !grailsApplication.config.span2field.onFailure.defaultAction) {
     		return	
     	} else {
     		return "callback(\$('#${e}_span'),'${grailsApplication.config.span2field.onFailure.color ?: 'red'}')"
@@ -37,6 +37,12 @@ class Span2fieldTagLib {
         out << g.javascript([src: 'jquery-1.10.2.min.js'])
         out << g.javascript([src: 'jquery-ui.min.js'])
         out << g.javascript([src: 'span2field.js'])
+    }
+
+    def defaultCallback = {attr, body ->
+        out << g.javascript([src: 'defaultCallback.js'])
+        out << "<link rel=\"stylesheet\" href=\"${resource(dir: 'css', file: 'defaultCallback.css')}\" type=\"text/css\">"
+        out << "<link href=\"//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css\" rel=\"stylesheet\">"
     }
 
     def textField = {attr, body ->

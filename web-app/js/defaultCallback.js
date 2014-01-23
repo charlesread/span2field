@@ -1,24 +1,27 @@
 function callback(e) {
     e.css({width: 'auto'});
     e.append('<i class="fa fa-pencil"></i>');
-    e.animate(
+    $(e).animate(
         {
-            width: '+=30'
+            width: '+=30',
+            borderColor: '#E6F2FF',
+            borderWidth: 1
         },
         {
             duration: 300,
             complete: function(){
-                $(this).addClass('successAfter');
+                $(e).addClass('successAfter');
             }
         }
     ).delay(1500).animate(
         {
-            width: '-=30'
+            width: '-=30',
+            borderColor: 'rgba(0,0,0,0)'
         },
         {
             duration: 300,
             start: function(){
-                e.removeClass('successAfter');
+                $(e).removeClass('successAfter');
             }
         }
     );
