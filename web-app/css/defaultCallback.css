@@ -1,11 +1,12 @@
 span.editableSpan {
     display: inline-block;
     color: #268DFF;
-    border: 1px solid #B8DAFF;
+    border: 1px solid #E8F3FF;
     line-height: 20px;
     border-radius:5px;
     padding:5px;
     overflow: hidden;
+    width: auto;
 }
 span.editableSpan ul {
     padding: 0px;
@@ -39,6 +40,16 @@ span.editableSpan ul li:last-child:after {
     margin-left:10px;
     margin-right:5px;
     color: #BDDCFF;
+}
+
+input, select, textarea {
+    color: #268DFF;
+    border: 1px solid #B8DAFF;
+    border-radius:5px;
+    padding:5px;
+    outline:none;
+    font-size: 1em;
+    line-height: 20px;
 }
 
 

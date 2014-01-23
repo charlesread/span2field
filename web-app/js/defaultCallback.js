@@ -1,4 +1,5 @@
 function callback(e) {
+    e.css({width: 'auto'});
     e.append('<i class="fa fa-pencil"></i>');
     e.animate(
         {
